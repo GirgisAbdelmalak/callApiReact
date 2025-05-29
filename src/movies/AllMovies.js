@@ -21,6 +21,7 @@ function AllMovies(){
                                         img = {`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                                         name = {movie.title}
                                         path = {`/movie/${movie.id}`}
+                                        movie = {movie}
                                     />
                         })
                     }
