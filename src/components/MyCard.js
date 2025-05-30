@@ -2,15 +2,16 @@ import { Link } from "react-router-dom"
 import { FaStar } from "react-icons/fa";
 import { Favourite } from "../Redux/Action/FavouriteActions";
 import { useDispatch,useSelector } from "react-redux";
+import { useContext } from "react";
+import { languageContext } from "../context/LanguageConetext";
 function MyCard(props){
     const dispatch = useDispatch();
-    const favorites = useSelector(state => state);
+    const favorites = useSelector(state => state.myFavourite);
     const isFav = props.movie && favorites.some(m => m.id === props.movie.id);
-
-    const handleFavClick = () => {
-        if (props.movie) {
-          dispatch(Favourite(props.movie));
-        }
+    const { contLanguage, setContLanguage } = useContext(languageContext);
+    
+    const handleFavClick = () => {  
+          dispatch(Favourite(props.movie));        
       };
     return(
         
@@ -20,7 +21,7 @@ function MyCard(props){
             <div className="card-body">
                 
                 {
-                    props.path && <Link className="btn btn-outline-dark rounded-0" to={props.path}> View Movie </Link> 
+                    props.path && <Link className="btn btn-outline-dark rounded-0" to={props.path}> {contLanguage == 'English'? 'تفاصيل الفيلم':'View Movie'} </Link> 
                 }
                 {
                     props.overview &&  <h5>  {props.overview} </h5>

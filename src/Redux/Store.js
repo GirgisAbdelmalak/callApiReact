@@ -1,7 +1,8 @@
-import { createStore } from "redux"
+import { applyMiddleware, createStore } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
-import favouriteReducer from "./Reducers/FavouriteReducer"
+import {thunk} from 'redux-thunk'
+import combineReducers from "./Reducers/CombineReducer"
 
-const myStore = createStore(favouriteReducer, composeWithDevTools())
+const myStore = createStore(combineReducers, composeWithDevTools(applyMiddleware(thunk)))
 
 export default myStore

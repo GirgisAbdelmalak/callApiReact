@@ -1,6 +1,8 @@
-const favourite = []
+const INITIAL_VALUE = {
+    favourite: []
+}
 
-export default function favouriteReducer(state = favourite, action){
+export default function favouriteReducer(state = INITIAL_VALUE.favourite, action){
     switch(action.type){
         case "FAVOURITE":
             const movie = action.payload

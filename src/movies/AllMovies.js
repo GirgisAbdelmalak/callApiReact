@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
 import MyCard from "../components/MyCard";
+import { useDispatch,useSelector } from "react-redux";
+import { getMovies } from "../Redux/Action/MoviesAction";
+import { useContext } from "react";
+import { languageContext } from "../context/LanguageConetext";
 
 function AllMovies(){
-    const [moviesList, setMoviesList] = useState([])
+    
 
-    useEffect(()=>{
-        axios.get('https://api.themoviedb.org/3/movie/popular?api_key=29cf44b93ca83bf48d9356395476f7ad')
-        .then((res) => setMoviesList(res.data.results))
-        .catch((err) => console.log(err))
-    },[])    
+    const {contLanguage, setContLanguage} = useContext(languageContext)
+    const moviesList = useSelector(state => state.myMovies.moviesList); 
+    const dispatch = useDispatch()
+    useEffect(() => {
+        const lang = contLanguage === 'English' ? 'en' : 'ar';
+        dispatch(getMovies(contLanguage));
+    }, [dispatch, contLanguage]);
+
     return(
         <>  
             <div className="container">
