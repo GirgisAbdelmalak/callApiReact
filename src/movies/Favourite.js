@@ -13,20 +13,26 @@ export default function Favourite() {
 
   useEffect(() => {
     const lang = contLanguage === 'English' ? 'ar' : 'en';
+      if (favoriteList.length === 0) {
+      setFavorites([]);
+      return;
+    }
+  
     const updatedFavorites = [];
-
-    favoriteList.forEach((movie, index) => {
+  
+    favoriteList.forEach((movie) => {
       axios
         .get(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=29cf44b93ca83bf48d9356395476f7ad&language=${lang}`)
-        .then(res => {
+        .then((res) => {
           updatedFavorites.push(res.data);
           if (updatedFavorites.length === favoriteList.length) {
             setFavorites(updatedFavorites);
           }
         })
-        .catch(err => console.log("Error fetching movie", movie.id, err));
+        .catch((err) => console.log("Error fetching movie", movie.id, err));
     });
   }, [contLanguage, favoriteList]);
+  
   return (
     <div className="container">
       <div className={`${contLanguage == 'English'? 'd-flex flex-end':'d-flex flex-start'}`}>
@@ -34,7 +40,8 @@ export default function Favourite() {
       </div>
       <div className="row">
         {
-          favorites.map((movie) => (
+          favorites.length == 0 ? <p className="mx-4">{contLanguage=='English'?'لا توجد اى افلام فى قائمة مفضلاتك':'No Movies in your favourite list'}</p> : favorites.map((movie) => (
+            
                 <MyCard
                     img={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
                     name={movie.title}
